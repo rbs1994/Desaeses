@@ -3,9 +3,6 @@ var VideosJSON ='{"UrlDisease":"style/disease.png", "UrlPlayer":"style/player.pn
 
 var obj = JSON.parse(VideosJSON);
 
-
-var enemic1;
-var enemic2;
 var speed;
 var Enemics = new Array(15);
 var Start = 0;
@@ -14,7 +11,6 @@ var Lose = 0;
 var img;
 var Player;
 var dir;
-var Shoots = new Array(); 
 var Disparar;
 var shotsJugador = [];
 var punts;
@@ -29,7 +25,6 @@ document.addEventListener("keydown", function(event) {
     if (key === 13) { //Enter 
 		if(Start == 0){
 			Start = 1;
-			console.log("Start");
 			
 		}else if(Start == 1 && (Win == 1 || Lose == 1)){
 			Enemics.splice(0, Enemics.length);
@@ -38,7 +33,6 @@ document.addEventListener("keydown", function(event) {
 			punts = 0;
 			speed = 2;
 			crearEnemics();
-			console.log("Replay");
 		}	
 		
 		document.getElementById("key").style.visibility="hidden";
@@ -63,13 +57,14 @@ document.addEventListener("keydown", function(event) {
 
 document.addEventListener("keyup", function(event) {
 	var key = event.which || event.keyCode;
-	
-	if ((key == 65) || (key == 68)){
+    if ((key == 65) || (key == 68)){
 		dir = 0;		
 	}
 	
 	
 });
+
+
 
 function preload(){
 	
@@ -155,7 +150,7 @@ function draw(){
 			animation(playerSpriteRight, Player.x, Player.y);		  
 				  
 		}else{
-			animation(playerSpriteRight, Player.x, Player.y);
+			animation(playerSpriteFront, Player.x, Player.y);
 		}
 		
 		
@@ -308,7 +303,6 @@ function revisarVictoria(){
 function revisarDerrota(){
 	
 	if(Player.mort == 1){
-		console.log("Lose");
 		Lose = 1;
 		document.getElementById("key").innerHTML = "You Lose...";
 		document.getElementById("key").style.visibility="visible";
