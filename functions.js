@@ -69,7 +69,7 @@ document.addEventListener("keyup", function(event) {
 function preload(){
 	
 	playerSpriteLeft = loadAnimation('style/left1.png','style/left2.png','style/left3.png','style/left4.png');
-	playerSpriteRight = loadAnimation('style/right1.png','style/right2.png','style/right3.png','style/right5.png');
+	playerSpriteRight = loadAnimation('style/right1.png','style/right2.png','style/right3.png','style/right4.png');
 	playerSpriteFront = loadAnimation('style/front.png');
 	
 }
