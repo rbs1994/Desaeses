@@ -65,4 +65,13 @@ footer{
 	font-family: DiseaseInvader;
 }
 
+#punts{
+	left: 35%;
+	top: 37%;
+	z-index: 3;
+	position: relative;
+	visibility: hidden;
+	font-family: DiseaseInvader;
+}
+
 

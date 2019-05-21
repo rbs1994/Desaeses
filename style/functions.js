@@ -20,6 +20,8 @@ var shotsJugador = [];
 var punts;
 var shootAudio;
 var miniExplosion;
+var playerSpriteLeft;
+var playerSpriteRight;
 
 document.addEventListener("keydown", function(event) {
 	var key = event.which || event.keyCode;
@@ -27,16 +29,19 @@ document.addEventListener("keydown", function(event) {
 		if(Start == 0){
 			Start = 1;
 			console.log("Start");
+			
 		}else if(Start == 1 && (Win == 1 || Lose == 1)){
 			Enemics.splice(0, Enemics.length);
 			Lose = 0;
 			Win = 0;
 			punts = 0;
+			speed = 2;
 			crearEnemics();
 			console.log("Replay");
 		}	
 		
 		document.getElementById("key").style.visibility="hidden";
+		document.getElementById("punts").style.visibility="visible";
       
     }else if (key == 65){//D
 	  dir = 2;	
@@ -45,6 +50,7 @@ document.addEventListener("keydown", function(event) {
 	}else if (key == 68){ //A
 	  dir = 1;	
 	  Player.mou(dir);  
+	  
 			  
     }else if(key == 18){//Alt
 		Disparar = true;	
@@ -54,6 +60,13 @@ document.addEventListener("keydown", function(event) {
 	
 });
 
+function preload(){
+	
+	playerSpriteLeft = loadAnimation('style/left1.png','style/left2.png','style/left3.png','style/left4.png');
+	playerSpriteRight = loadAnimation('style/right1.png','style/right2.png','style/right3.png','style/right5.png');
+	
+}
+
 function setup(){
     var canvas = createCanvas(500,400);
 	speed = 2;
@@ -62,15 +75,17 @@ function setup(){
     canvas.parent('canvas');
 	Punts = 0;
 	
+	
 	shootAudio = new Audio(obj.UrlShootAudio);
 	miniExplosion = new Audio(obj.UrlMiniExplosion)
 	
 	
-	img = loadImage("style/disease.png");
+	//img = loadImage("style/disease.png");
+	
+	
 	
 	crearEnemics();
 	Player = new Player(250, 350);
-	
 }
 
 function draw(){
@@ -79,7 +94,7 @@ function draw(){
 		checkCollisions();
 		revisarVictoria();
 		revisarDerrota();
-		
+		//document.getElementById("punts").innerHTML = "Punts: " + punts.toString();
 
 		var i = 0;
 
@@ -119,6 +134,16 @@ function draw(){
 				continue;
 			}
 		}
+		
+		
+		
+		if(dir==1){
+			animation(playerSpriteLeft, Player.x, Player.y);	
+		}else if (dir == 2){
+			animation(playerSpriteRight, Player.x, Player.y);		  
+				  
+		}
+		
 		
 	
 	}	
@@ -172,8 +197,8 @@ function Enemy(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		image(img, this.x, this.y, 20, 20);
-		//rect(this.x, this.y, 20, 20);
+		//image(img, this.x, this.y, 20, 20);
+		rect(this.x, this.y, 20, 20);
     }
 	
     
@@ -238,6 +263,7 @@ function checkCollisions(){
 					console.log("Col2");
 					Enemics[i].mort = 1;
 					miniExplosion.play();
+					speed += 5;
 					shotsJugador.splice(j, 1);
 				}
 			}
