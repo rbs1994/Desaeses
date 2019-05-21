@@ -66,7 +66,7 @@ function setup(){
 	miniExplosion = new Audio(obj.UrlMiniExplosion)
 	
 	
-	//img = loadImage("style/disease.png");
+	img = loadImage("style/disease.png");
 	
 	crearEnemics();
 	Player = new Player(250, 350);
@@ -172,8 +172,8 @@ function Enemy(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//image(img, this.x, this.y, 20, 20);
-		rect(this.x, this.y, 20, 20);
+		image(img, this.x, this.y, 20, 20);
+		//rect(this.x, this.y, 20, 20);
     }
 	
     
