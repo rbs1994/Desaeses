@@ -259,7 +259,7 @@ function revisarVictoria(){
 	if(victoria == 1){
 		console.log("WIN");
 		Win = 1;
-		document.getElementById("key").innerHTML = "You Win!";
+		document.getElementById("key").innerHTML = "You Fuck!";
 		document.getElementById("key").style.visibility="visible";
 	}
 	
