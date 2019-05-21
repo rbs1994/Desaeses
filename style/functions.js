@@ -22,6 +22,7 @@ var shootAudio;
 var miniExplosion;
 var playerSpriteLeft;
 var playerSpriteRight;
+var playerSpriteFront;
 
 document.addEventListener("keydown", function(event) {
 	var key = event.which || event.keyCode;
@@ -60,10 +61,21 @@ document.addEventListener("keydown", function(event) {
 	
 });
 
+document.addEventListener("keyup", function(event) {
+	var key = event.which || event.keyCode;
+	
+	if ((key == 65) || (key == 68)){
+		dir = 0;		
+	}
+	
+	
+}
+
 function preload(){
 	
 	playerSpriteLeft = loadAnimation('style/left1.png','style/left2.png','style/left3.png','style/left4.png');
-	playerSpriteRight = loadAnimation('style/right1.png','style/right2.png','style/right3.png','style/right4.png');
+	playerSpriteRight = loadAnimation('style/right1.png','style/right2.png','style/right3.png','style/right5.png');
+	playerSpriteFront = loadAnimation('style/front.png');
 	
 }
 
@@ -74,13 +86,13 @@ function setup(){
 	shotsJugador.length = 0;
     canvas.parent('canvas');
 	Punts = 0;
-	
+	dir = 0;
 	
 	shootAudio = new Audio(obj.UrlShootAudio);
 	miniExplosion = new Audio(obj.UrlMiniExplosion)
 	
 	
-	//img = loadImage("style/disease.png");
+	img = loadImage("style/disease.png");
 	
 	
 	
@@ -137,11 +149,13 @@ function draw(){
 		
 		
 		
-		if(dir==1){
+		if(dir==2){
 			animation(playerSpriteLeft, Player.x, Player.y);	
-		}else if (dir == 2){
+		}else if (dir == 1){
 			animation(playerSpriteRight, Player.x, Player.y);		  
 				  
+		}else{
+			animation(playerSpriteRight, Player.x, Player.y);
 		}
 		
 		
@@ -197,8 +211,8 @@ function Enemy(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//image(img, this.x, this.y, 20, 20);
-		rect(this.x, this.y, 20, 20);
+		image(img, this.x, this.y, 20, 20);
+		//rect(this.x, this.y, 20, 20);
     }
 	
     
@@ -234,7 +248,7 @@ function Player(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		rect(this.x, this.y, 20, 20);
+		//rect(this.x, this.y, 20, 20);
     }
     
 }
@@ -263,7 +277,7 @@ function checkCollisions(){
 					console.log("Col2");
 					Enemics[i].mort = 1;
 					miniExplosion.play();
-					speed += 5;
+					speed += 1;
 					shotsJugador.splice(j, 1);
 				}
 			}
