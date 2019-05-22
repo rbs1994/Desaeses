@@ -89,7 +89,7 @@ function setup(){
 	dir = 0;
 	limitEnemics = 0;
 	
-	
+	//Carragem Audios
 	shootAudio = loadSound(obj.UrlShootAudio);
 	miniExplosion = loadSound(obj.UrlMiniExplosion)
 	
@@ -131,33 +131,28 @@ function draw(){
 	if ((Start == 1) && (Win==0) && (Lose==0)){
 		checkCollisions();
 		
-		
 		var text = 'Points: ';
-		
 		text = text+Punts;
-		
 		divPuntos.html(text);
 
 		var i = 0;
 
-			enemicLimit()
-			while(i < Enemics.length){
+		enemicLimit();
+		
+		while(i < Enemics.length){
 			 if(Enemics[i].mort == 0){
 			   Enemics[i].mou();
 			   Enemics[i].dibuixa();
 			}
-
-				i += 1;
-			}
+			i += 1;
+		}
+		
 		if(Player.mort == 0){
 			Player.dibuixa();
 		}	
 
-
-
 		if(Disparar == true){
 			shotsJugador.push({'x':Player.x, 'y':Player.y});
-			
 			Disparar = false;
 		}
 
@@ -166,17 +161,14 @@ function draw(){
 		}
 
 		for(var i=0;i<shotsJugador.length;i++){
-
 			shotsJugador[i].y -= 3;
 
-			// si disparo jugador se sale del canvas							
+			//Per si una bala surt del canvas							
 			if(shotsJugador[i].y <= 0){
 				shotsJugador.splice(i, 1);
 				continue;
 			}
 		}
-		
-		
 		
 		if(dir==2){
 			animation(playerSpriteLeft, Player.x, Player.y);	
@@ -186,6 +178,7 @@ function draw(){
 			animation(playerSpriteFront, Player.x, Player.y);
 		}
 		
+		//Comprovem si ja hem guanyat o hem perdut
 		revisarVictoria();
 		revisarDerrota();
 	
@@ -212,31 +205,22 @@ function crearEnemics(){
 
 function Enemy(xInicial, yInicial){
     
-    //atribut
     this.x = xInicial;
     this.y = yInicial;
 	this.mort = 0;
-    this.velocitat = 3;
 
-    
-    //mètode per recalcular posició
     this.mou = function(){
-		
 		if(limitEnemics == 1){
 			this.x -= speed;
 		}else{
 			this.x += speed;
-		}
-        
+		}   
     }
     
     this.dibuixa = function(){
 		fill(0);
 		image(img, this.x, this.y, 20, 20);
-		//rect(this.x, this.y, 20, 20);
-    }
-	
-    
+    }  
 }
 
 function Player(xInicial, yInicial){
@@ -248,9 +232,7 @@ function Player(xInicial, yInicial){
     //atribut
     this.x = xInicial;
     this.y = yInicial;
-	this.mort = 0;
-    this.velocitat = 3;
-    
+	this.mort = 0;    
 	
     this.mou = function(dir){
 		
@@ -265,37 +247,30 @@ function Player(xInicial, yInicial){
 			}
 		}
         
-    }
-    
-    this.dibuixa = function(){
-		fill(0);
-    }
-    
+    }    
 }
 	
 function checkCollisions(){
 
-	// compruebo colision invader
+	// Comprovar colisio d'Enemic amb el Player.
 	for(var i=0;i<Enemics.length;i++){
-		if(Enemics[i].y + 70 >= Player.y){
+		if(Enemics[i].y + 100 >= Player.y){
 			if( (Enemics[i].x >= Player.x && Enemics[i].x <= Player.x + 20) || (Enemics[i].x + 20 >= Player.x && Enemics[i].x + 20 <= Player.x + 20) ){ 
 				Player.mort = 1;
 			}
 		}
 	}
 	
-	// compruebo colision disparos jugador
+	// Comprovar colisio de bales amb Enemic
 	for(var i=0;i<Enemics.length;i++){
 		for(var j=0;j<shotsJugador.length;j++){
-
-			//if(!Enemics[i]) continue;
 			
 			if((Enemics[i].mort == 0) && shotsJugador[j].y <= Enemics[i].y + 20 && shotsJugador[j].y >= Enemics[i].y){
 				if( (shotsJugador[j].x >= Enemics[i].x && shotsJugador[j].x <= Enemics[i].x + 20) || (shotsJugador[j].x + 2 >= Enemics[i].x && shotsJugador[j] + 2 <= Enemics[i].x + 20) ){
 					Punts++;
 					Enemics[i].mort = 1;
 					miniExplosion.play();
-					speed += 0.2;
+					speed += 0.2; // Pujem la velocitat del Enamics cada cop que en mort un.
 					shotsJugador.splice(j, 1);
 				}
 			}
@@ -356,9 +331,7 @@ function enemicLimit(){
 
 function baixarEnemic(){
 	for(var i = 0; i<Enemics.length; i++){
-		
-		Enemics[i].y += 5;
-		
+		Enemics[i].y += 5;	
 	}
 }
 
