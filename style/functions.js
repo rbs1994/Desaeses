@@ -145,10 +145,6 @@ function draw(){
 			   Enemics[i].dibuixa();
 			}
 			i += 1;
-		}
-		
-		if(Player.mort == 0){
-			Player.dibuixa();
 		}	
 
 		if(Disparar == true){
