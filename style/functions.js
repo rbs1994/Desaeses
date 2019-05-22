@@ -277,7 +277,7 @@ function checkCollisions(){
 
 	// compruebo colision invader
 	for(var i=0;i<Enemics.length;i++){
-		if(Enemics[i].y + 60 >= Player.y){
+		if(Enemics[i].y + 80 >= Player.y){
 			if( (Enemics[i].x >= Player.x && Enemics[i].x <= Player.x + 20) || (Enemics[i].x + 20 >= Player.x && Enemics[i].x + 20 <= Player.x + 20) ){ 
 				Player.mort = 1;
 			}
@@ -288,7 +288,7 @@ function checkCollisions(){
 	for(var i=0;i<Enemics.length;i++){
 		for(var j=0;j<shotsJugador.length;j++){
 
-			if(!Enemics[i]) continue;
+			//if(!Enemics[i]) continue;
 			
 			if((Enemics[i].mort == 0) && shotsJugador[j].y <= Enemics[i].y + 20 && shotsJugador[j].y >= Enemics[i].y){
 				if( (shotsJugador[j].x >= Enemics[i].x && shotsJugador[j].x <= Enemics[i].x + 20) || (shotsJugador[j].x + 2 >= Enemics[i].x && shotsJugador[j] + 2 <= Enemics[i].x + 20) ){
