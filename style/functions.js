@@ -277,7 +277,7 @@ function checkCollisions(){
 
 	// compruebo colision invader
 	for(var i=0;i<Enemics.length;i++){
-		if(Enemics[i].y + 120 >= Player.y){
+		if(Enemics[i].y + 100 >= Player.y){
 			if( (Enemics[i].x >= Player.x && Enemics[i].x <= Player.x + 20) || (Enemics[i].x + 20 >= Player.x && Enemics[i].x + 20 <= Player.x + 20) ){ 
 				Player.mort = 1;
 			}
