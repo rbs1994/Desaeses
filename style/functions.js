@@ -4,7 +4,7 @@ var VideosJSON ='{"UrlDisease":"style/disease.png", "UrlPlayer":"style/player.pn
 var obj = JSON.parse(VideosJSON);
 
 var speed;
-var Enemics = new Array(15);
+var Enemics = new Array(30);
 var Start = 0;
 var Win = 0;
 var Lose = 0;
@@ -19,6 +19,11 @@ var miniExplosion;
 var playerSpriteLeft;
 var playerSpriteRight;
 var playerSpriteFront;
+var limitEnemics;
+var divPuntos;
+var divTitles;
+var divTitles2;
+
 
 document.addEventListener("keydown", function(event) {
 	var key = event.which || event.keyCode;
@@ -27,16 +32,15 @@ document.addEventListener("keydown", function(event) {
 			Start = 1;
 			
 		}else if(Start == 1 && (Win == 1 || Lose == 1)){
-			Enemics.splice(0, Enemics.length);
 			Lose = 0;
 			Win = 0;
 			punts = 0;
 			speed = 2;
 			crearEnemics();
+			Player.mort = 0;
 		}	
-		
-		document.getElementById("key").style.visibility="hidden";
-		document.getElementById("punts").style.visibility="visible";
+		divTitles2.style('visibility', 'hidden');
+		divTitles.style('visibility', 'hidden');
       
     }else if (key == 65){//D
 	  dir = 2;	
@@ -79,13 +83,31 @@ function setup(){
     canvas.parent('canvas');
 	Punts = 0;
 	dir = 0;
+	limitEnemics = 0;
 	
-	shootAudio = new Audio(obj.UrlShootAudio);
-	miniExplosion = new Audio(obj.UrlMiniExplosion)
+	shootAudio = loadSound(obj.UrlShootAudio);
+	miniExplosion = loadSound(obj.UrlMiniExplosion)
 	
 	
-	img = loadImage("style/disease.png");
+	img = loadImage(obj.UrlDisease);
 	
+	
+	divTitles = createDiv();
+	divTitles.position(435,-350);
+	divTitles.style('z-index','3');
+	divTitles.style('position','relative');
+	divTitles.style('font-family','DiseaseInvader');
+	divTitles.style('color','black');
+	divTitles.style('font-size', '25px')
+	divTitles.html('Press Enter to Start');
+	
+	divTitles2 = createDiv();
+	divTitles2.position(360,-350);
+	divTitles2.style('z-index','3');
+	divTitles2.style('position','relative');
+	divTitles2.style('font-family','DiseaseInvader');
+	divTitles2.style('color','black');
+	divTitles2.style('font-size', '25px');
 	
 	
 	crearEnemics();
@@ -96,13 +118,10 @@ function draw(){
 	background(255);
 	if ((Start == 1) && (Win==0) && (Lose==0)){
 		checkCollisions();
-		revisarVictoria();
-		revisarDerrota();
-		//document.getElementById("punts").innerHTML = "Punts: " + punts.toString();
 
 		var i = 0;
 
-
+			enemicLimit()
 			while(i < Enemics.length){
 			 if(Enemics[i].mort == 0){
 			   Enemics[i].mou();
@@ -123,8 +142,7 @@ function draw(){
 			Disparar = false;
 		}
 
-		for(var i=0;i<shotsJugador.length;i++){							
-			//fill(shotsJugador[i].color);
+		for(var i=0;i<shotsJugador.length;i++){		
 			rect(shotsJugador[i].x+10, shotsJugador[i].y, 3, 4);	
 		}
 
@@ -150,30 +168,31 @@ function draw(){
 			animation(playerSpriteFront, Player.x, Player.y);
 		}
 		
-		
+		revisarVictoria();
+		revisarDerrota();
 	
 	}	
 			
 }
 
 function crearEnemics(){
-	var x = 30;
+	var x = 155;
 	var y = 30;
 	var i = 0;
-	
-	while(i < 15){
+	console.log('crear en');
+	while(i < Enemics.length){
 		Enemics[i] = new Enemy(x, y);
 		x += 30;
+		if(i == 9 || i == 19){
+			y += 30;
+			x = 155;
+		}
 		i += 1;
 	}
 	
 }
 
 function Enemy(xInicial, yInicial){
-	
-	var limit; 
-	
-	limit = 0;
     
     //atribut
     this.x = xInicial;
@@ -185,15 +204,7 @@ function Enemy(xInicial, yInicial){
     //mètode per recalcular posició
     this.mou = function(){
 		
-		if(this.x >= 456){
-		   limit = 1;
-		   this.y += 30;
-		}else if(this.x <= 26){
-		   limit = 0;
-		   this.y += 30;
-		}
-		
-		if(limit == 1){
+		if(limitEnemics == 1){
 			this.x -= speed;
 		}else{
 			this.x += speed;
@@ -203,8 +214,8 @@ function Enemy(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		image(img, this.x, this.y, 20, 20);
-		//rect(this.x, this.y, 20, 20);
+		//image(img, this.x, this.y, 20, 20);
+		rect(this.x, this.y, 20, 20);
     }
 	
     
@@ -240,7 +251,7 @@ function Player(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//rect(this.x, this.y, 20, 20);
+		rect(this.x, this.y, 20, 20);
     }
     
 }
@@ -269,7 +280,7 @@ function checkCollisions(){
 					console.log("Col2");
 					Enemics[i].mort = 1;
 					miniExplosion.play();
-					speed += 1;
+					speed += 0.2;
 					shotsJugador.splice(j, 1);
 				}
 			}
@@ -291,8 +302,10 @@ function revisarVictoria(){
 	if(victoria == 1){
 		console.log("WIN");
 		Win = 1;
-		document.getElementById("key").innerHTML = "You Win!";
-		document.getElementById("key").style.visibility="visible";
+		divTitles2.html('You Win, press enter to play again!');
+		divTitles2.style('visibility', 'visible');
+		divTitles.style('visibility', 'hidden');
+		shotsJugador.splice(0, shotsJugador.length);
 	}
 	
 }
@@ -301,10 +314,39 @@ function revisarDerrota(){
 	
 	if(Player.mort == 1){
 		Lose = 1;
-		document.getElementById("key").innerHTML = "You Lose...";
-		document.getElementById("key").style.visibility="visible";
+		divTitles2.html('You Lose, press enter to play again!');
+		divTitles2.style('visibility', 'visible');
+		divTitles.style('visibility', 'hidden');
+		shotsJugador.splice(0, shotsJugador.length);
 	}
 	
 }
+
+
+function enemicLimit(){
+	
+	for(var i = 0; i<Enemics.length; i++){
+		
+		if(Enemics[i].x >= 456){
+		   limitEnemics = 1;
+			baixarEnemic();
+		}else if(Enemics[i].x <= 26){
+		   limitEnemics = 0;
+			baixarEnemic();
+		}
+		
+	}
+	
+}
+
+function baixarEnemic(){
+	for(var i = 0; i<Enemics.length; i++){
+		
+		Enemics[i].y += 5;
+		
+	}
+}
+
+
 
 

@@ -57,21 +57,14 @@ footer{
 	
 }
 
-#key{
-	left: 46%;
-	top: 50%;
-	z-index: 3;
-	position: relative;
-	font-family: DiseaseInvader;
-}
-
 #punts{
-	left: 35%;
+	left: 30%;
 	top: 37%;
 	z-index: 3;
 	position: relative;
 	visibility: hidden;
 	font-family: DiseaseInvader;
+	color:white;
 }
 
 
