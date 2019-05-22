@@ -2,7 +2,7 @@ var VideosJSON ='{"UrlDisease":"style/disease.png", "UrlPlayer":"style/player.pn
 				'"UrlShootAudio": "style/shoot.ogg", "UrlMiniExplosion":"style/miniExplosion.ogg",'+
 				'"Left1": "style/left1.png", "Left2":"style/left2.png", "Left3":"style/left3.png",'+
 				'"Left4": "style/left4.png", "Right1":"style/right1.png", "Right2":"style/right2.png",'+
-				'"Right3": "style/right3.png", "Right4":"style/right4.png", "Front":"style/front.png",}';
+				'"Right3": "style/right3.png", "Right4":"style/right4.png", "Front":"style/front.png"}';
 
 var obj = JSON.parse(VideosJSON);
 
