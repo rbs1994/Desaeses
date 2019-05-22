@@ -214,8 +214,8 @@ function Enemy(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//image(img, this.x, this.y, 20, 20);
-		rect(this.x, this.y, 20, 20);
+		image(img, this.x, this.y, 20, 20);
+		//rect(this.x, this.y, 20, 20);
     }
 	
     
@@ -251,7 +251,7 @@ function Player(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		rect(this.x, this.y, 20, 20);
+		//rect(this.x, this.y, 20, 20);
     }
     
 }
