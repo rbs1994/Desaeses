@@ -26,6 +26,7 @@ var limitEnemics;
 var divPuntos;
 var divTitles;
 var divTitles2;
+var Punts;
 
 
 document.addEventListener("keydown", function(event) {
@@ -37,7 +38,7 @@ document.addEventListener("keydown", function(event) {
 		}else if(Start == 1 && (Win == 1 || Lose == 1)){
 			Lose = 0;
 			Win = 0;
-			punts = 0;
+			Punts = 0;
 			speed = 2;
 			crearEnemics();
 			Player.mort = 0;
@@ -88,12 +89,20 @@ function setup(){
 	dir = 0;
 	limitEnemics = 0;
 	
+	
 	shootAudio = loadSound(obj.UrlShootAudio);
 	miniExplosion = loadSound(obj.UrlMiniExplosion)
 	
 	
 	img = loadImage(obj.UrlDisease);
 	
+	divPuntos = createDiv();
+	divPuntos.position(300,-390);
+	divPuntos.style('z-index','3');
+	divPuntos.style('position','relative');
+	divPuntos.style('font-family','DiseaseInvader');
+	divPuntos.style('color','black');
+	divPuntos.style('font-size', '25px');
 	
 	divTitles = createDiv();
 	divTitles.position(435,-350);
@@ -101,7 +110,7 @@ function setup(){
 	divTitles.style('position','relative');
 	divTitles.style('font-family','DiseaseInvader');
 	divTitles.style('color','black');
-	divTitles.style('font-size', '25px')
+	divTitles.style('font-size', '25px');
 	divTitles.html('Press Enter to Start');
 	
 	divTitles2 = createDiv();
@@ -121,6 +130,13 @@ function draw(){
 	background(255);
 	if ((Start == 1) && (Win==0) && (Lose==0)){
 		checkCollisions();
+		
+		
+		var text = 'Points: ';
+		
+		text = text+Punts;
+		
+		divPuntos.html(text);
 
 		var i = 0;
 
@@ -165,8 +181,7 @@ function draw(){
 		if(dir==2){
 			animation(playerSpriteLeft, Player.x, Player.y);	
 		}else if (dir == 1){
-			animation(playerSpriteRight, Player.x, Player.y);		  
-				  
+			animation(playerSpriteRight, Player.x, Player.y);		  	  
 		}else{
 			animation(playerSpriteFront, Player.x, Player.y);
 		}
@@ -254,7 +269,7 @@ function Player(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//rect(this.x, this.y, 20, 20);
+		rect(this.x, this.y, 20, 20);
     }
     
 }
@@ -280,7 +295,6 @@ function checkCollisions(){
 			if((Enemics[i].mort == 0) && shotsJugador[j].y <= Enemics[i].y + 20 && shotsJugador[j].y >= Enemics[i].y){
 				if( (shotsJugador[j].x >= Enemics[i].x && shotsJugador[j].x <= Enemics[i].x + 20) || (shotsJugador[j].x + 2 >= Enemics[i].x && shotsJugador[j] + 2 <= Enemics[i].x + 20) ){
 					Punts++;
-					console.log("Col2");
 					Enemics[i].mort = 1;
 					miniExplosion.play();
 					speed += 0.2;
