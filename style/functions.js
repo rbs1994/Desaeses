@@ -269,7 +269,6 @@ function Player(xInicial, yInicial){
     
     this.dibuixa = function(){
 		fill(0);
-		//rect(this.x, this.y, 20, 20);
     }
     
 }
@@ -278,7 +277,7 @@ function checkCollisions(){
 
 	// compruebo colision invader
 	for(var i=0;i<Enemics.length;i++){
-		if(Enemics[i].y + 60 >= Player.y){
+		if(Enemics[i].y + 120 >= Player.y){
 			if( (Enemics[i].x >= Player.x && Enemics[i].x <= Player.x + 20) || (Enemics[i].x + 20 >= Player.x && Enemics[i].x + 20 <= Player.x + 20) ){ 
 				Player.mort = 1;
 			}
